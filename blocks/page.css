@@ -1,4 +1,13 @@
 .page {
+  display: flex;
+  flex-direction: column;
   background: #fcf5e5;
   font-family: Poppins, Arial, sans-serif;
+  color: #212121;
+}
+
+.page__section {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
 }
