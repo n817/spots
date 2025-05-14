@@ -22,6 +22,20 @@
       </div>
       <button type="button" class="profile__add-button">New Post</button>
     </section>
+
+    <section class="cards page__section">
+      <ul class="cards__list">
+        <template id="card-template">
+          <li class="card">
+            <img class="card__image">
+            <div class="card__caption">
+              <h2 class="card__title"></h2>
+              <button type="button" class="card__like-button"></button>
+            </div>
+          </li>
+        </template>
+      </ul>
+    </section>
   </main>
   
   <footer class="footer page__section">
@@ -36,5 +50,6 @@
       </a>
     </p>
   </footer>
+  <script defer src="./scripts/index.js"></script>
 </body>
 </html>

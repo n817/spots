@@ -1,6 +1,7 @@
 .profile {
   display: flex;
   padding: 34px 0 20px;
+  border-bottom: 1px solid #21212166;
 }
 
 .profile__avatar {
@@ -21,6 +22,12 @@
   font-size: 32px;
   line-height: 1;
   font-weight: 500;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  max-width: 420px;
   margin: 0;
 }
 
@@ -28,6 +35,12 @@
   font-size: 16px;
   line-height: 1;
   font-weight: 500;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  max-width: 420px;
   margin: 0;
   opacity: .7;
 }
@@ -106,7 +119,7 @@
   }
 
   .profile__description {
-    align-self: center;
+    text-align: center;
   }
 
   .profile__edit-button {
