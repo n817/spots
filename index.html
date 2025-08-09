@@ -51,15 +51,15 @@
     </p>
   </footer>
 
-  <div class="modal" id="profile-edit-modal">
+  <div class="modal modal_is-opened" id="profile-edit-modal">
     <div class="modal__content">
       <button type="button" class="modal__close-button"></button>
       <h3 class="modal__title">Edit profile</h3>
       <form class="modal__form" id="profile-edit-form">
-        <label class="modal__label">
+        <label class="modal__label">Name
           <input type="text" class="modal__input" id="profile-name-input" placeholder="Type your name" required>
         </label>
-        <label class="modal__label">
+        <label class="modal__label">Description
           <input type="text" class="modal__input" id="profile-description-input" placeholder="Describe yourself" required>
         </label>
         <button class="modal__submit-button" type="submit">Save</button>
@@ -72,10 +72,10 @@
       <button type="button" class="modal__close-button"></button>
       <h3 class="modal__title">New post</h3>
       <form class="modal__form" id="card-add-form">
-        <label class="modal__label">
+        <label class="modal__label">Image link
           <input type="text" class="modal__input" id="card-link-input" placeholder="Paste a link to the picture" required>
         </label>
-        <label class="modal__label">
+        <label class="modal__label">Caption
           <input type="text" class="modal__input" id="card-caption-input" placeholder="Type your caption" required>
         </label>
         <button class="modal__submit-button" type="submit">Save</button>
