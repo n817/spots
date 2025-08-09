@@ -1,3 +1,12 @@
+// Profile section variables
+const profileName = document.querySelector(".profile__name");
+const profileDescription = document.querySelector(".profile__description");
+const editProfileButton = document.querySelector(".profile__edit-button");
+const addCardButton = document.querySelector(".profile__add-button");
+
+// Cards section variables
+const cardsList = document.querySelector(".cards__list");
+const cardTemplate = document.querySelector("#card-template");
 const initialCards = [
     {
       name: "Yosemite Valley",
@@ -25,9 +34,22 @@ const initialCards = [
     },
   ];
 
-const cardsList = document.querySelector(".cards__list");
-const cardTemplate = document.querySelector("#card-template");
+// Profile edit modal variables
+const editProfileModal = document.querySelector("#profile-edit-modal");
+const editProfileCloseButton = editProfileModal.querySelector(".modal__close-button");
+const editProfileForm = editProfileModal.querySelector(".modal__form");
+const nameInput = editProfileForm.querySelector("#profile-name-input");
+const descriptionInput = editProfileForm.querySelector("#profile-description-input");
 
+// Card add modal variables
+const addCardModal = document.querySelector("#card-add-modal");
+const addCardCloseButton = addCardModal.querySelector(".modal__close-button");
+const addCardForm = addCardModal.querySelector(".modal__form");
+const cardLinkInput = addCardForm.querySelector("#card-link-input");
+const cardCaptionInput = addCardForm.querySelector("#card-caption-input");
+
+
+// Cards rendering
 function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
@@ -46,3 +68,34 @@ for (let i = 0; i < initialCards.length; i++) {
   const cardEl = getCardElement(initialCards[i]);
   cardsList.append(cardEl);
 }
+
+// Open/close modal function
+const toggleModal = (modal) => {
+  modal.classList.toggle("modal_is-opened");
+}
+
+// Profile edit functionality
+editProfileButton.addEventListener("click", function() {
+  nameInput.value = profileName.textContent;
+  descriptionInput.value = profileDescription.textContent;
+  toggleModal(editProfileModal);
+});
+
+editProfileCloseButton.addEventListener("click", () => toggleModal(editProfileModal));
+
+editProfileForm.addEventListener("submit", function(evt) {
+  evt.preventDefault();
+  profileName.textContent = nameInput.value;
+  profileDescription.textContent = descriptionInput.value;
+  toggleModal(editProfileModal);
+})
+
+// Card add functionality
+addCardButton.addEventListener("click", () => toggleModal(addCardModal));
+addCardCloseButton.addEventListener("click", () => toggleModal(addCardModal));
+addCardForm.addEventListener("submit", function(evt) {
+  evt.preventDefault();
+  console.log("Image link:", cardLinkInput.value);
+  console.log("Image caption:", cardCaptionInput.value);
+  toggleModal(addCardModal);
+})

@@ -73,11 +73,17 @@
   width: 100%;
   font-size: 20px;
   line-height: 1;
+  font-weight: 500;
+  color: #212121;
   border: 1px solid #21212166;
   padding: 16px 12px;
   margin-top: 8px;
   box-sizing: border-box;
   border-radius: 8px;
+}
+
+.modal__input::placeholder {
+  color: #2121214d;
 }
 
 .modal__input:hover {
