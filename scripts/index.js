@@ -62,11 +62,13 @@ function getCardElement(data) {
     .cloneNode(true);
   const cardTitle = cardElement.querySelector(".card__title");
   const cardImage = cardElement.querySelector(".card__image");
+  const likeButton = cardElement.querySelector(".card__like-button");
 
   cardTitle.textContent = data.name;
   cardImage.src = data.link;
   cardImage.alt = data.name;
 
+  likeButton.addEventListener("click", handleLike);
   cardImage.addEventListener("click", () => handleImageZoom(data));
 
   return cardElement;
@@ -107,6 +109,11 @@ addCardForm.addEventListener("submit", function(evt) {
   console.log("Image caption:", cardCaptionInput.value);
   toggleModal(addCardModal);
 })
+
+// Card like functionality
+function handleLike(evt) {
+  evt.target.classList.toggle("card__like-button_active");
+}
 
 // Image zoom functionality
 function handleImageZoom(data) {
