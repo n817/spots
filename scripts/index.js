@@ -48,6 +48,12 @@ const addCardForm = addCardModal.querySelector(".modal__form");
 const cardLinkInput = addCardForm.querySelector("#card-link-input");
 const cardCaptionInput = addCardForm.querySelector("#card-caption-input");
 
+// Image zoom modal variables
+const zoomImageModal = document.querySelector("#image-zoom-modal");
+const zoomImageCloseButton = zoomImageModal.querySelector(".modal__close-button");
+const zoomImage = zoomImageModal.querySelector(".modal__image");
+const zoomImageCaption = zoomImageModal.querySelector(".modal__caption");
+
 
 // Cards rendering
 function getCardElement(data) {
@@ -60,6 +66,8 @@ function getCardElement(data) {
   cardTitle.textContent = data.name;
   cardImage.src = data.link;
   cardImage.alt = data.name;
+
+  cardImage.addEventListener("click", () => handleImageZoom(data));
 
   return cardElement;
 }
@@ -99,3 +107,13 @@ addCardForm.addEventListener("submit", function(evt) {
   console.log("Image caption:", cardCaptionInput.value);
   toggleModal(addCardModal);
 })
+
+// Image zoom functionality
+function handleImageZoom(data) {
+  zoomImage.src = data.link;
+  zoomImage.alt = data.name;
+  zoomImageCaption.textContent = data.name;
+  toggleModal(zoomImageModal);
+}
+
+zoomImageCloseButton.addEventListener("click", () => toggleModal(zoomImageModal));

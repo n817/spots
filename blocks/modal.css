@@ -29,6 +29,12 @@
   border-radius: 8px;
 }
 
+.modal__content_type_image-zoom {
+  max-width: 80vw;
+  width: unset;
+  padding: 0;
+}
+
 .modal__close-button {
   width: 40px;
   height: 40px;
@@ -40,6 +46,12 @@
   opacity: .4;
   padding: 0;
   cursor: pointer;
+}
+
+.modal__close-button_type_image-zoom {
+  top: 0;
+  right: -48px;
+  background-image: url("../images/close-light.svg");
 }
 
 .modal__close-button:hover {
@@ -107,15 +119,48 @@
   opacity: .8;
 }
 
+.modal__image {
+  display: block;
+  max-height: 80vh;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.modal__caption {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #fff;
+  background-color: #212121;
+  border-radius: 8px;
+  margin: 0;
+  padding: 4px 8px;
+}
+
 @media screen and (max-width: 630px) {
   .modal__content {
     padding: 22px 12px 12px;
+  }
+
+  .modal__content_type_image-zoom {
+    max-width: none;
+    padding: 0;
   }
 
   .modal__close-button {
     top: 12px;
     right: 12px;
   }
+
+  .modal__close-button_type_image-zoom {
+  top: -48px;
+  right: 0;
+  background-image: url("../images/close-light.svg");
+}
 
   .modal__title {
     font-size: 20px;
@@ -132,5 +177,13 @@
 
   .modal__submit-button {
     width: 100%;
+  }
+
+  .modal__image {
+    max-height: none;
+  }
+
+  .modal__caption {
+    font-size: 16px;
   }
 }
