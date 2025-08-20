@@ -63,11 +63,13 @@ function getCardElement(data) {
   const cardTitle = cardElement.querySelector(".card__title");
   const cardImage = cardElement.querySelector(".card__image");
   const likeButton = cardElement.querySelector(".card__like-button");
+  const deleteButton = cardElement.querySelector(".card__delete-button");
 
   cardTitle.textContent = data.name;
   cardImage.src = data.link;
   cardImage.alt = data.name;
 
+  deleteButton.addEventListener("click", handleDeleteCard);
   likeButton.addEventListener("click", handleLike);
   cardImage.addEventListener("click", () => handleImageZoom(data));
 
@@ -75,8 +77,8 @@ function getCardElement(data) {
 }
 
 for (let i = 0; i < initialCards.length; i++) {
-  const cardEl = getCardElement(initialCards[i]);
-  cardsList.append(cardEl);
+  const cardElement = getCardElement(initialCards[i]);
+  cardsList.append(cardElement);
 }
 
 // Open/close modal function
@@ -105,10 +107,17 @@ addCardButton.addEventListener("click", () => toggleModal(addCardModal));
 addCardCloseButton.addEventListener("click", () => toggleModal(addCardModal));
 addCardForm.addEventListener("submit", function(evt) {
   evt.preventDefault();
-  console.log("Image link:", cardLinkInput.value);
-  console.log("Image caption:", cardCaptionInput.value);
+  const newCardData = {link: cardLinkInput.value, name: cardCaptionInput.value};
+  const newCard = getCardElement(newCardData);
+  cardsList.prepend(newCard);
   toggleModal(addCardModal);
+  evt.target.reset();
 })
+
+// Card delete functionality
+function handleDeleteCard(evt) {
+  evt.target.closest(".card").remove();
+}
 
 // Card like functionality
 function handleLike(evt) {
