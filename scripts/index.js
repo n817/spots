@@ -34,23 +34,23 @@ const initialCards = [
     },
   ];
 
+// List of modals
+const modals = document.querySelectorAll(".modal");
+
 // Profile edit modal variables
 const editProfileModal = document.querySelector("#profile-edit-modal");
-const editProfileCloseButton = editProfileModal.querySelector(".modal__close-button");
 const editProfileForm = editProfileModal.querySelector(".modal__form");
 const nameInput = editProfileForm.querySelector("#profile-name-input");
 const descriptionInput = editProfileForm.querySelector("#profile-description-input");
 
 // Card add modal variables
 const addCardModal = document.querySelector("#card-add-modal");
-const addCardCloseButton = addCardModal.querySelector(".modal__close-button");
 const addCardForm = addCardModal.querySelector(".modal__form");
 const cardLinkInput = addCardForm.querySelector("#card-link-input");
 const cardCaptionInput = addCardForm.querySelector("#card-caption-input");
 
 // Image zoom modal variables
 const zoomImageModal = document.querySelector("#image-zoom-modal");
-const zoomImageCloseButton = zoomImageModal.querySelector(".modal__close-button");
 const zoomImage = zoomImageModal.querySelector(".modal__image");
 const zoomImageCaption = zoomImageModal.querySelector(".modal__caption");
 
@@ -86,14 +86,24 @@ const toggleModal = (modal) => {
   modal.classList.toggle("modal_is-opened");
 }
 
+// Closing the modal by clicking on overlay or close button
+modals.forEach((modal) => {
+  modal.addEventListener("mousedown", (evt) => {
+    if (
+      evt.target.classList.contains("modal") ||
+      evt.target.classList.contains("modal__close-button")
+    ) {
+      toggleModal(modal);
+    }
+  });
+});
+
 // Profile edit functionality
 editProfileButton.addEventListener("click", function() {
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
   toggleModal(editProfileModal);
 });
-
-editProfileCloseButton.addEventListener("click", () => toggleModal(editProfileModal));
 
 editProfileForm.addEventListener("submit", function(evt) {
   evt.preventDefault();
@@ -104,7 +114,6 @@ editProfileForm.addEventListener("submit", function(evt) {
 
 // Card add functionality
 addCardButton.addEventListener("click", () => toggleModal(addCardModal));
-addCardCloseButton.addEventListener("click", () => toggleModal(addCardModal));
 addCardForm.addEventListener("submit", function(evt) {
   evt.preventDefault();
   const newCardData = {link: cardLinkInput.value, name: cardCaptionInput.value};
@@ -131,5 +140,3 @@ function handleImageZoom(data) {
   zoomImageCaption.textContent = data.name;
   toggleModal(zoomImageModal);
 }
-
-zoomImageCloseButton.addEventListener("click", () => toggleModal(zoomImageModal));
