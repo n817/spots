@@ -81,9 +81,15 @@ for (let i = 0; i < initialCards.length; i++) {
   cardsList.append(cardElement);
 }
 
-// Open/close modal function
-const toggleModal = (modal) => {
-  modal.classList.toggle("modal_is-opened");
+// Open/close modal functions
+const openModal = (modal) => {
+  modal.classList.add("modal_is-opened");
+  document.addEventListener("keyup", handleEscape);
+}
+
+const closeModal = (modal) => {
+  modal.classList.remove("modal_is-opened");
+  document.removeEventListener("keyup", handleEscape);
 }
 
 // Closing the modal by clicking on overlay or close button
@@ -93,33 +99,41 @@ modals.forEach((modal) => {
       evt.target.classList.contains("modal") ||
       evt.target.classList.contains("modal__close-button")
     ) {
-      toggleModal(modal);
+      closeModal(modal);
     }
   });
 });
+
+// Closing the modal by pressing the Escape key
+function handleEscape(evt) {
+  if (evt.key === "Escape") {
+    const activeModal = document.querySelector(".modal_is-opened");
+    closeModal(activeModal);
+  }
+}
 
 // Profile edit functionality
 editProfileButton.addEventListener("click", function() {
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
-  toggleModal(editProfileModal);
+  openModal(editProfileModal);
 });
 
 editProfileForm.addEventListener("submit", function(evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileDescription.textContent = descriptionInput.value;
-  toggleModal(editProfileModal);
+  closeModal(editProfileModal);
 })
 
 // Card add functionality
-addCardButton.addEventListener("click", () => toggleModal(addCardModal));
+addCardButton.addEventListener("click", () => openModal(addCardModal));
 addCardForm.addEventListener("submit", function(evt) {
   evt.preventDefault();
   const newCardData = {link: cardLinkInput.value, name: cardCaptionInput.value};
   const newCard = getCardElement(newCardData);
   cardsList.prepend(newCard);
-  toggleModal(addCardModal);
+  closeModal(addCardModal);
   evt.target.reset();
 })
 
@@ -138,5 +152,5 @@ function handleImageZoom(data) {
   zoomImage.src = data.link;
   zoomImage.alt = data.name;
   zoomImageCaption.textContent = data.name;
-  toggleModal(zoomImageModal);
+  openModal(zoomImageModal);
 }
