@@ -114,6 +114,7 @@ function handleEscape(evt) {
 
 // Profile edit functionality
 editProfileButton.addEventListener("click", function() {
+  resetValidation(editProfileModal, [nameInput, descriptionInput], validationConfig);
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
   openModal(editProfileModal);
