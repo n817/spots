@@ -1,3 +1,6 @@
+import "./index.css";
+import { validationConfig, enableValidation, resetValidation } from "../scripts/validate.js";
+
 // Profile section variables
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
@@ -7,6 +10,7 @@ const addCardButton = document.querySelector(".profile__add-button");
 // Cards section variables
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template");
+
 const initialCards = [
     {
       name: "Yosemite Valley",
@@ -155,3 +159,5 @@ function handleImageZoom(data) {
   zoomImageCaption.textContent = data.name;
   openModal(zoomImageModal);
 }
+
+enableValidation(validationConfig);
