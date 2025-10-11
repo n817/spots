@@ -118,9 +118,13 @@ editProfileButton.addEventListener("click", function() {
 
 editProfileForm.addEventListener("submit", function(evt) {
   evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileDescription.textContent = descriptionInput.value;
-  closeModal(editProfileModal);
+  api.updateUserInfo({ name: nameInput.value, about: descriptionInput.value })
+    .then((data) => {
+      profileName.textContent = data.name;
+      profileDescription.textContent = data.about;
+      closeModal(editProfileModal);
+    })
+    .catch(console.error);
 })
 
 function setUserData(data) {

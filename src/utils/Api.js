@@ -31,6 +31,17 @@ class Api {
         return Promise.reject(`Error: ${res.status}`);
       })
   }
+  
+  updateUserInfo({ name, about }) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        name,
+        about,
+      }),
+    }).then(this._handleServerResponse);
+  }
 
   _handleServerResponse(res) {
     return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
