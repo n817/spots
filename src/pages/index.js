@@ -1,42 +1,18 @@
 import "./index.css";
 import { validationConfig, enableValidation, resetValidation } from "../scripts/validate.js";
 
+import Api from "../utils/Api.js";
+
 // Profile section variables
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
+const profileAvatar = document.querySelector(".profile__avatar");
 const editProfileButton = document.querySelector(".profile__edit-button");
 const addCardButton = document.querySelector(".profile__add-button");
 
 // Cards section variables
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template");
-
-const initialCards = [
-    {
-      name: "Yosemite Valley",
-      link: "https://code.s3.yandex.net/web-code/yosemite.jpg",
-    },
-    {
-      name: "Lake Louise",
-      link: "https://code.s3.yandex.net/web-code/lake-louise.jpg",
-    },
-    {
-      name: "Bald Mountains",
-      link: "https://code.s3.yandex.net/web-code/bald-mountains.jpg",
-    },
-    {
-      name: "Latemar",
-      link: "https://code.s3.yandex.net/web-code/latemar.jpg",
-    },
-    {
-      name: "Vanoise National Park",
-      link: "https://code.s3.yandex.net/web-code/vanoise.jpg",
-    },
-    {
-      name: "Lago di Braies",
-      link: "https://code.s3.yandex.net/web-code/lago.jpg",
-    },
-  ];
 
 // List of modals
 const modals = document.querySelectorAll(".modal");
@@ -59,6 +35,27 @@ const zoomImage = zoomImageModal.querySelector(".modal__image");
 const zoomImageCaption = zoomImageModal.querySelector(".modal__caption");
 
 
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "0f8c8143-f357-4bf6-aa1f-0dc5c492fe92",
+    "Content-Type": "application/json"
+  }
+});
+
+api.getAppInfo()
+  .then(([cards, userData]) => {
+    setUserData(userData);
+    cards.forEach((card) => {
+      const cardEl = getCardElement(card);
+      cardsList.append(cardEl);
+    })
+  })
+    .catch((err) => {
+    console.error(`Data loading error: ${err}`);
+  });
+
+
 // Cards rendering
 function getCardElement(data) {
   const cardElement = cardTemplate.content
@@ -78,11 +75,6 @@ function getCardElement(data) {
   cardImage.addEventListener("click", () => handleImageZoom(data));
 
   return cardElement;
-}
-
-for (let i = 0; i < initialCards.length; i++) {
-  const cardElement = getCardElement(initialCards[i]);
-  cardsList.append(cardElement);
 }
 
 // Open/close modal functions
@@ -130,6 +122,12 @@ editProfileForm.addEventListener("submit", function(evt) {
   profileDescription.textContent = descriptionInput.value;
   closeModal(editProfileModal);
 })
+
+function setUserData(data) {
+  profileName.textContent = data.name;
+  profileDescription.textContent = data.about;
+  profileAvatar.src = data.avatar;
+}
 
 // Card add functionality
 addCardButton.addEventListener("click", () => openModal(addCardModal));
