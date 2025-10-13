@@ -11,6 +11,22 @@
   object-fit: cover;
 }
 
+.profile__avatar-button {
+  border: none;
+  padding: 0;
+}
+
+.profile__avatar-button::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background-image: url(../images/pencil-light.svg);
+}
+
+.profile__avatar-button:a::after {
+  content: "Edit avatar";
+}
+
 .profile__info {
   display: flex;
   flex-direction: column;
