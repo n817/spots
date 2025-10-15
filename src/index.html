@@ -12,8 +12,10 @@
 
   <main class="content">
     <section class="profile page__section">
-      <button class="profile__avatar-button"></button>
-      <img src="<%=require('./images/avatar.jpg')%>" alt="profile avatar" class="profile__avatar">
+      <div class="profile__avatar-container">
+        <button type="button" class="profile__avatar-button"></button>
+        <img alt="profile avatar" class="profile__avatar">
+      </div>
       <div class="profile__info">
         <h1 class="profile__name">Loading ...</h1>
         <p class="profile__description">Loading ...</p>
@@ -79,6 +81,26 @@
             required
           />
         <span class="modal__error" id="profile-description-input-error"></span>
+        </label>
+        <button class="modal__submit-button" type="submit">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="avatar-edit-modal">
+    <div class="modal__content">
+      <button type="button" class="modal__close-button"></button>
+      <h3 class="modal__title">Edit profile avatar</h3>
+      <form class="modal__form" id="avatar-edit-form">
+        <label class="modal__label">Profile picture
+          <input
+            type="url"
+            class="modal__input"
+            id="avatar-link-input"
+            placeholder="Paste a link to the picture"
+            required
+          />
+          <span class="modal__error" id="avatar-link-input-error"></span>
         </label>
         <button class="modal__submit-button" type="submit">Save</button>
       </form>

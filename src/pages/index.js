@@ -8,6 +8,7 @@ const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 const profileAvatar = document.querySelector(".profile__avatar");
 const editProfileButton = document.querySelector(".profile__edit-button");
+const editAvatarButton = document.querySelector(".profile__avatar-button")
 const addCardButton = document.querySelector(".profile__add-button");
 
 // Cards section variables
@@ -22,6 +23,11 @@ const editProfileModal = document.querySelector("#profile-edit-modal");
 const editProfileForm = editProfileModal.querySelector(".modal__form");
 const nameInput = editProfileForm.querySelector("#profile-name-input");
 const descriptionInput = editProfileForm.querySelector("#profile-description-input");
+
+// Avatar edit modal variables
+const editAvatarModal = document.querySelector("#avatar-edit-modal");
+const editAvatarForm = editAvatarModal.querySelector(".modal__form");
+const avatarLinkInput = editAvatarModal.querySelector("#avatar-link-input");
 
 // Card add modal variables
 const addCardModal = document.querySelector("#card-add-modal");
@@ -132,6 +138,18 @@ function setUserData(data) {
   profileDescription.textContent = data.about;
   profileAvatar.src = data.avatar;
 }
+
+// Avatar edit functionality
+editAvatarButton.addEventListener("click", () => openModal(editAvatarModal));
+editAvatarForm.addEventListener("submit", function(evt) {
+  evt.preventDefault();
+  api.updateAvatar({ avatar: avatarLinkInput.value })
+    .then((data) => {
+      profileAvatar.src = data.avatar;
+      closeModal(editAvatarModal);
+    })
+    .catch(console.error);
+})
 
 // Card add functionality
 addCardButton.addEventListener("click", () => openModal(addCardModal));
