@@ -40,6 +40,9 @@ const zoomImageModal = document.querySelector("#image-zoom-modal");
 const zoomImage = zoomImageModal.querySelector(".modal__image");
 const zoomImageCaption = zoomImageModal.querySelector(".modal__caption");
 
+// Card delete modal variables
+const deleteCardModal = document.querySelector("#card-delete-modal");
+const deleteCardForm = deleteCardModal.querySelector(".modal__form");
 
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
@@ -49,7 +52,8 @@ const api = new Api({
   }
 });
 
-api.getAppInfo()
+api
+  .getAppInfo()
   .then(([cards, userData]) => {
     setUserData(userData);
     cards.forEach((card) => {
@@ -75,9 +79,12 @@ function getCardElement(data) {
   cardTitle.textContent = data.name;
   cardImage.src = data.link;
   cardImage.alt = data.name;
+    if (data.isLiked) {
+    likeButton.classList.add("card__like-button_active");
+  }
 
-  deleteButton.addEventListener("click", handleDeleteCard);
-  likeButton.addEventListener("click", handleLike);
+  deleteButton.addEventListener("click", (evt) => handleDeleteCard(cardElement, data._id));
+  likeButton.addEventListener("click", (evt) => handleLike(evt, data._id));
   cardImage.addEventListener("click", () => handleImageZoom(data));
 
   return cardElement;
@@ -99,7 +106,8 @@ modals.forEach((modal) => {
   modal.addEventListener("mousedown", (evt) => {
     if (
       evt.target.classList.contains("modal") ||
-      evt.target.classList.contains("modal__close-button")
+      evt.target.classList.contains("modal__close-button") ||
+      evt.target.classList.contains("modal__submit-button_type_cancel")
     ) {
       closeModal(modal);
     }
@@ -124,7 +132,8 @@ editProfileButton.addEventListener("click", function() {
 
 editProfileForm.addEventListener("submit", function(evt) {
   evt.preventDefault();
-  api.updateUserInfo({ name: nameInput.value, about: descriptionInput.value })
+  api
+    .updateUserInfo({ name: nameInput.value, about: descriptionInput.value })
     .then((data) => {
       profileName.textContent = data.name;
       profileDescription.textContent = data.about;
@@ -143,7 +152,8 @@ function setUserData(data) {
 editAvatarButton.addEventListener("click", () => openModal(editAvatarModal));
 editAvatarForm.addEventListener("submit", function(evt) {
   evt.preventDefault();
-  api.updateAvatar({ avatar: avatarLinkInput.value })
+  api
+    .updateAvatar({ avatar: avatarLinkInput.value })
     .then((data) => {
       profileAvatar.src = data.avatar;
       closeModal(editAvatarModal);
@@ -155,21 +165,48 @@ editAvatarForm.addEventListener("submit", function(evt) {
 addCardButton.addEventListener("click", () => openModal(addCardModal));
 addCardForm.addEventListener("submit", function(evt) {
   evt.preventDefault();
-  const newCardData = {link: cardLinkInput.value, name: cardCaptionInput.value};
-  const newCard = getCardElement(newCardData);
-  cardsList.prepend(newCard);
-  closeModal(addCardModal);
-  evt.target.reset();
+  api
+    .addCard({ link: cardLinkInput.value, name: cardCaptionInput.value })
+    .then((data => {
+      const newCard = getCardElement(data);
+      cardsList.prepend(newCard);
+      closeModal(addCardModal);
+      evt.target.reset();
+    }))
+    .catch(console.error);
 })
 
 // Card delete functionality
-function handleDeleteCard(evt) {
-  evt.target.closest(".card").remove();
+let selectedCard, selectedCardId;
+
+function handleDeleteCard(cardElement, cardId) {
+  selectedCard = cardElement;
+  selectedCardId = cardId;
+  openModal(deleteCardModal);
 }
 
+function handleDeleteCardSubmit(evt) {
+  evt.preventDefault();
+  api
+    .deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      closeModal(deleteCardModal);
+    })
+    .catch(console.error);
+}
+
+deleteCardForm.addEventListener("submit", handleDeleteCardSubmit);
+
 // Card like functionality
-function handleLike(evt) {
-  evt.target.classList.toggle("card__like-button_active");
+function handleLike(evt, cardId) {
+  const isLiked = evt.target.classList.contains("card__like-button_active");
+  api
+    .changeCardLikeStatus(cardId, isLiked)
+    .then(() => {
+      evt.target.classList.toggle("card__like-button_active");
+    })
+    .catch(console.error);
 }
 
 // Image zoom functionality
