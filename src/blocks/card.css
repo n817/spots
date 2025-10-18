@@ -8,6 +8,7 @@
 .card__image {
   height: 413px;
   border-radius: 8px;
+  object-fit: cover;
   cursor: pointer;
 }
 
